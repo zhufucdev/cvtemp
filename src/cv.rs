@@ -32,22 +32,22 @@ impl fmt::Display for Error {
     fn fmt(&self, f: &mut Formatter<'_>) -> fmt::Result {
         match self.kind {
             ErrorKind::ImageSize => {
-                write!(f, "Invalid image size")
+                write!(f, "validating image size")
             }
             ErrorKind::MatrixConvert => {
-                write!(f, "Error loading into matrix ({})", self.path.as_ref().unwrap().display())
+                write!(f, "loading into matrix ({})", self.path.as_ref().unwrap().display())
             }
             ErrorKind::Match => {
-                write!(f, "Error matching template. {}", self.message.as_ref().unwrap())
+                write!(f, "matching template because {}", self.message.as_ref().unwrap())
             }
             ErrorKind::Normalization => {
-                write!(f, "Error while normalizing. {}", self.message.as_ref().unwrap())
+                write!(f, "normalizing because {}", self.message.as_ref().unwrap())
             }
             ErrorKind::Mark => {
-                write!(f, "Error while marking the haystack. {}", self.message.as_ref().unwrap())
+                write!(f, "marking the haystack because {}", self.message.as_ref().unwrap())
             }
             ErrorKind::Write => {
-                write!(f, "Error while writing ({})", self.path.as_ref().unwrap().display())
+                write!(f, "writing ({})", self.path.as_ref().unwrap().display())
             }
         }
     }

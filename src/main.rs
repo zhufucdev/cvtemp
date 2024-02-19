@@ -1,9 +1,11 @@
 mod io;
 mod cv;
+mod errorhandle;
 
 use clap::Parser;
 use opencv::core::MatTraitConst;
 use crate::cv::GetPosition;
+use crate::errorhandle::UnwrapExit;
 use crate::io::Print;
 
 #[derive(Parser)]
@@ -27,7 +29,7 @@ struct Args {
 
 fn main() {
     let args = Args::parse();
-    let mut templated = cv::Templated::from_files(args.host_image, args.target_image).unwrap();
+    let mut templated = cv::Templated::from_files(args.host_image, args.target_image).unwrap_or_exit();
 
     if args.verbose {
         println!("threshold = {}, host = {} * {}, target = {} * {}", args.threshold,
@@ -35,19 +37,19 @@ fn main() {
     }
 
     if args.once {
-        if let Some((p, v)) = templated.get_best_position(args.threshold).unwrap() {
+        if let Some((p, v)) = templated.get_best_position(args.threshold).unwrap_or_exit() {
             if args.verbose {
                 (p, v).println()
             }
             if let Some(output) = args.output {
-                templated.mark(p).unwrap();
-                templated.write(&output).unwrap();
+                templated.mark(p).unwrap_or_exit();
+                templated.write(&output).unwrap_or_exit();
             } else if !args.verbose {
                 p.println()
             }
         }
     } else {
-        let filtered = templated.get_positions(args.threshold).unwrap();
+        let filtered = templated.get_positions(args.threshold).unwrap_or_exit();
         if args.verbose {
             for p in &filtered {
                 p.println()
@@ -55,9 +57,9 @@ fn main() {
         }
         if let Some(output) = args.output {
             for (p, _) in filtered {
-                templated.mark(p).unwrap()
+                templated.mark(p).unwrap_or_exit()
             }
-            templated.write(&output).unwrap();
+            templated.write(&output).unwrap_or_exit();
         } else if !args.verbose {
             for (p, _) in filtered {
                 p.println()
