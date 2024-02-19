@@ -15,7 +15,7 @@ You can reproduce the examples by running
 ```shell
 git clone https://github.com/zhufucdev/cvtemp.git
 cd cvtemp
-cargo run -- -o -t 0.99 ./sample/host.png ./sample/target.png ./sample/match.png
+cargo run -- -o ./sample/host.png ./sample/target.png ./sample/match.png
 ```
 
 ## Credits
