@@ -26,7 +26,7 @@ jobs:
       run: cargo build --release --verbose
       shell: bash
     - name: Copy dynamic links
-      run: cp "${{ env.OPENCV_LINK_PATHS }}"/* target/release
+      run: cp C:/tools/opencv/build/x64/vc16/bin/*.dll target/release
       shell: bash
     - name: Collect
       uses: actions/upload-artifact@v4
