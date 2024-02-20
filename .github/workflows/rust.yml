@@ -11,16 +11,13 @@ env:
 
 jobs:
   build:
-    strategy:
-      matrix:
-        os: [windows-latest]
-    runs-on: ${{ matrix.os }}
+    runs-on: windows-latest
     steps:
     - uses: actions/checkout@v3
-    - name: Setup vcpkg
-      uses: lukka/run-vcpkg@v11
+    - name: Install dependencies
+      uses: crazy-max/ghaction-chocolatey@v3
       with:
-        vcpkgGitCommitId: 'a42af01b72c28a8e1d7b48107b33e4f286a55ef6'
+        args: install llvm opencv
     - name: Run vcpkg install
       run: vcpkg install llvm opencv4[contrib,nonfree]
     - name: Build
