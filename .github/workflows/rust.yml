@@ -18,7 +18,7 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     - name: Install opencv
-    - uses: cvpkg/opencv-action@v0.1
+      uses: cvpkg/opencv-action@v0.1
     - name: Build
       run: cargo build --release --verbose
     - name: Run tests
