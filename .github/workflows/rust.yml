@@ -11,7 +11,7 @@ env:
 
 jobs:
   build_windows:
-    runs-on: window-latest
+    runs-on: windows-latest
     steps:
     - uses: actions/checkout@v3
     - name: Setup vcpkg
