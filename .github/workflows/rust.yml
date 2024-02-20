@@ -12,6 +12,10 @@ env:
 jobs:
   build_windows:
     runs-on: windows-latest
+    env:
+      OPENCV_INCLUDE_PATHS: C:\tools\opencv\build\include
+      OPENCV_LINK_LIBS: opencv_world490
+      OPENCV_LINK_PATHS: C:\tools\opencv\build\x64\vc16\lib
     steps:
     - uses: actions/checkout@v3
     - name: Install dependencies
@@ -21,10 +25,6 @@ jobs:
     - name: Build
       run: cargo build --release --verbose
       shell: bash
-      env:
-        OPENCV_INCLUDE_PATHS: C:\tools\opencv\build\include
-        OPENCV_LINK_LIBS: opencv_world490
-        OPENCV_LINK_PATHS: C:\tools\opencv\build\x64\vc16\lib
     - name: List release dir
       run: ls "target/release"
       shell: bash
@@ -32,4 +32,6 @@ jobs:
       uses: actions/upload-artifact@v4
       with:
         name: cvtemp-windows-x64
-        path: target/release/cvtemp.exe
+        path: |
+          target/release/cvtemp.exe
+          ${{ env.OPENCV_LINK_PATHS }}
