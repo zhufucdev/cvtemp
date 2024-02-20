@@ -22,8 +22,8 @@ jobs:
       run: cargo build --release --verbose
       shell: bash
       env:
-        OPENCV_INCLUDE_PATHS: "C:\tools\opencv\build\include"
+        OPENCV_INCLUDE_PATHS: C:\tools\opencv\build\include
         OPENCV_LINK_LIBS: opencv_world490
-        OPENCV_LINK_PATHS: "C:\tools\opencv\build\x64\vc16"
+        OPENCV_LINK_PATHS: C:\tools\opencv\build\x64\vc16
     - name: Run tests
       run: cargo test --verbose
