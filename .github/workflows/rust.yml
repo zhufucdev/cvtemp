@@ -17,6 +17,9 @@ jobs:
     runs-on: ${{ matrix.os }}
     steps:
     - uses: actions/checkout@v3
+    - uses: Dovyski/setup-opencv-action@v1.1
+      with:
+        opencv-version: '4.0.0'
     - name: Build
       run: cargo build --release --verbose
     - name: Run tests
