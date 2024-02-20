@@ -18,6 +18,7 @@ jobs:
       uses: lukka/run-vcpkg@v11
       with:
         runVcpkgInstall: true
+        vcpkgCommitId: 'a42af01b72c28a8e1d7b48107b33e4f286a55ef6'
     - name: Build
       run: cargo build --release --verbose
     - name: Run tests
