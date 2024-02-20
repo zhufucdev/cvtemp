@@ -25,8 +25,8 @@ jobs:
     - name: Build
       run: cargo build --release --verbose
       shell: bash
-    - name: List release dir
-      run: ls "target/release"
+    - name: Copy dynamic links
+      run: cp "${{ env.OPENCV_LINK_PATHS }}\*" target/release
       shell: bash
     - name: Collect
       uses: actions/upload-artifact@v4
@@ -34,4 +34,4 @@ jobs:
         name: cvtemp-windows-x64
         path: |
           target/release/cvtemp.exe
-          ${{ env.OPENCV_LINK_PATHS }}
+          target/release/*.dll
