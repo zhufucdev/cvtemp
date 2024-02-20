@@ -10,15 +10,15 @@ env:
   CARGO_TERM_COLOR: always
 
 jobs:
-  build:
-    strategy:
-      matrix:
-        os: [ubuntu-latest, windows-latest]
-    runs-on: ${{ matrix.os }}
+  build_windows:
+    runs-on: window-latest
     steps:
     - uses: actions/checkout@v3
-    - name: Install opencv
-      uses: cvpkg/opencv-action@v0.1
+    - name: Setup vcpkg
+      uses: lukka/run-vcpkg@v11
+      with:
+        runVcpkgInstall: true
+    - run: vcpkg install llvm opencv4[contrib,nonfree]
     - name: Build
       run: cargo build --release --verbose
     - name: Run tests
