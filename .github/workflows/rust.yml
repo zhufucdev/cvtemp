@@ -19,7 +19,7 @@ jobs:
       with:
         args: install llvm opencv --no-progress
     - name: List OpenCV installation
-      run: ls "/mnt/c/tools/opencv/build/x64/vc15/ib"
+      run: ls "C:\tools\opencv\build\x64\vc15\ib"
       shell: bash
     - name: Build
       run: OPENCV_INCLUDE_PATHS="C:\tools\opencv\build\include" OPENCV_LINK_LIBS="opencv_world412" OPENCV_LINK_PATHS="C:\tools\opencv\build\x64\vc15\ib" cargo build --release --verbose
