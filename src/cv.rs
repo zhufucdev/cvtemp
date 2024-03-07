@@ -17,7 +17,6 @@ pub struct Templated {
 enum ErrorKind {
     ImageSize,
     Match,
-    Normalization,
     MatrixConvert,
     Mark,
     Write,
@@ -41,9 +40,6 @@ impl fmt::Display for Error {
             }
             ErrorKind::Match => {
                 write!(f, "matching template because {}", self.message.as_ref().unwrap())
-            }
-            ErrorKind::Normalization => {
-                write!(f, "normalizing because {}", self.message.as_ref().unwrap())
             }
             ErrorKind::Mark => {
                 write!(f, "marking the haystack because {}", self.message.as_ref().unwrap())
