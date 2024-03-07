@@ -4,7 +4,7 @@ use std::path::PathBuf;
 
 use opencv::core::{CV_32FC1, Mat, MatExprResult, MatExprTraitConst, MatTraitConst, min_max_loc, no_array, NORM_MINMAX, normalize, Point, Rect, Scalar};
 use opencv::imgcodecs::imwrite;
-use opencv::imgproc::{match_template, rectangle, TM_SQDIFF_NORMED};
+use opencv::imgproc::{match_template, rectangle, TM_CCOEFF_NORMED, TM_CCORR, TM_SQDIFF_NORMED};
 
 use crate::io;
 
@@ -99,22 +99,8 @@ impl Templated {
             Mat::new_rows_cols(self.haystack.rows() - self.needle.rows() + 1, self.haystack.cols() - self.needle.cols() + 1, CV_32FC1)
                 .unwrap()
         };
-
-        match match_template(&self.haystack, &self.needle, &mut result, TM_SQDIFF_NORMED, &no_array()) {
-            Ok(_) => {
-                let mut normalized =
-                    unsafe { Mat::new_rows_cols(result.rows(), result.cols(), CV_32FC1).unwrap() };
-                normalize(&mut result, &mut normalized, 0.0, 1.0, NORM_MINMAX, -1, &no_array())
-                    .and_then(|_| {
-                        match Mat::ones(normalized.rows(), normalized.cols(), normalized.typ()).unwrap() - normalized {
-                            MatExprResult::Ok(mat) => Ok(mat.to_mat().unwrap()),
-                            MatExprResult::Err(e) => Err(e)
-                        }
-                    })
-                    .map_err(|e| { Error::new_messaged(e.message, ErrorKind::Normalization) })
-            }
-            Err(e) => Err(Error::new_messaged(e.message, ErrorKind::Match))
-        }
+        match_template(&self.haystack, &self.needle, &mut result, TM_CCOEFF_NORMED, &no_array()).map_err(|e| Error::new_messaged(e.message, ErrorKind::Match))?;
+        Ok(result)
     }
 
     pub fn mark(&mut self, position: Point) -> Result<(), Error> {
@@ -139,7 +125,7 @@ impl GetPosition for Templated {
         self.normalized_result()
             .and_then(|normalized| {
                 let mut filtered: Vec<(Point, f32)> = vec![];
-                
+
                 for (p, v) in normalized.iter::<f32>().unwrap() {
                     if v > threshold {
                         filtered.push((p, v))
