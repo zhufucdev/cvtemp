@@ -2,9 +2,9 @@ use std::fmt;
 use std::fmt::Formatter;
 use std::path::PathBuf;
 
-use opencv::core::{CV_32FC1, Mat, MatExprResult, MatExprTraitConst, MatTraitConst, min_max_loc, no_array, NORM_MINMAX, normalize, Point, Rect, Scalar};
+use opencv::core::{CV_32FC1, Mat, MatTraitConst, min_max_loc, no_array, Point, Rect, Scalar};
 use opencv::imgcodecs::imwrite;
-use opencv::imgproc::{match_template, rectangle, TM_CCOEFF_NORMED, TM_CCORR, TM_SQDIFF_NORMED};
+use opencv::imgproc::{match_template, rectangle, TM_CCOEFF_NORMED};
 
 use crate::io;
 
